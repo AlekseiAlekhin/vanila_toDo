@@ -1,0 +1,4 @@
+.toDoItem.activeCheckbox{
+    background-color: aliceblue !important;
+    text-decoration: line-through;
+}
