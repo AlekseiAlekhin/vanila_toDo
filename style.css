@@ -2,3 +2,36 @@
     background-color: aliceblue !important;
     text-decoration: line-through;
 }
+
+body{
+    display: grid;
+    justify-content: center;
+}
+
+h1{
+    margin-left: 150px;
+}
+
+.radio{
+    display: inline;
+}
+
+.input{
+    display: inline;
+}
+
+.ul_inner{
+    padding-left: 0;
+}
+
+  .toDoItem{
+      display: block;
+      list-style-type: none;
+      justify-content: space-between;
+  }
+
+  .dltButton{
+      display: inline-block;
+
+  }
+

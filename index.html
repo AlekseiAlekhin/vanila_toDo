@@ -5,7 +5,7 @@
     <title>toDo</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body onload="loadItem()">
     <h1>Список</h1>
     <div class = 'inner'>
         <ul class="ul_inner">
@@ -22,7 +22,8 @@
         <input class = 'radio c4' type="radio" name="color" value = '#00d669' onchange="func()">
         <input class = 'radio c5' type="radio" name="color" value = '#530cff' onchange="func()">
         <button type="button" class="addToDo">Add</button>
+        <button type = 'button' class="saveButton" onclick='clearLocal()'>Save</button>
     </div>
-<script src="index.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
