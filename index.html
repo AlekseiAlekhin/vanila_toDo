@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>toDo</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body onload="loadItem()">
     <h1>Список</h1>
@@ -15,14 +15,14 @@
     <div class="fieldToDoAdd">
         <input class = 'input' type="text" placeholder="Add new item">
 
-        <input class = 'radio c0' type="radio" name="color" value = 'blue' onchange="func()">
-        <input class = 'radio c1' type="radio" name="color" value = '#ffa400' onchange="func()">
-        <input class = 'radio c2' type="radio" name="color" value = 'green' onchange="func()">
-        <input class = 'radio c3' type="radio" name="color" value = 'red' onchange="func()">
-        <input class = 'radio c4' type="radio" name="color" value = '#00d669' onchange="func()">
-        <input class = 'radio c5' type="radio" name="color" value = '#530cff' onchange="func()">
+        <input id="a1" class = 'radio c0' type="radio" name="color" value = 'blue' onchange="func()"><label for="a1" class="radio_lbl d1">blue</label>
+        <input id="a2" class = 'radio c1' type="radio" name="color" value = '#ffa400' onchange="func()"><label for="a2" class='radio_lbl d2'>#ffa400</label>
+        <input id="a3" class = 'radio c2' type="radio" name="color" value = 'green' onchange="func()"><label for="a3" class='radio_lbl d3'>green</label>
+        <input id="a4" class = 'radio c3' type="radio" name="color" value = 'red' onchange="func()"><label for="a4" class="radio_lbl d4">red</label>
+        <input id="a5" class = 'radio c4' type="radio" name="color" value = '#00d669' onchange="func()"><label for="a5" class="radio_lbl d5">#00d669</label>
+        <input id="a6" class = 'radio c5' type="radio" name="color" value = '#530cff' onchange="func()"><label for="a6" class="radio_lbl d6">#530cff</label>
         <button type="button" class="addToDo">Add</button>
-        <button type = 'button' class="saveButton" onclick='clearLocal()'>Save</button>
+        <button type = 'button' class="saveButton" onclick='localStorage.clear()'>Clear LS</button>
     </div>
     <script src="index.js"></script>
 </body>

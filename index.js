@@ -1,16 +1,37 @@
 const inner = document.querySelector('.ul_inner');
 const input = document.querySelector('.input');
+let objItem = {};
+let arrItems = [];
+let newList = {};
 
 function func(){
     let radio = document.querySelectorAll('.radio');
     for (let a of radio){
         if(a.checked){
             a.classList.toggle('active', true);
-            console.log(a)
             return;
         }
         a.classList.toggle('active', false);
         console.log(a)
+    }
+}
+
+function checkedBox(){
+    // console.log(this.parentNode)
+    let div = document.getElementById(`${this.parentNode.id}`);
+    let checkBox = document.querySelectorAll('.toDoCheckbox');
+    for (let a of checkBox){
+        if(a.checked){
+            div.classList.toggle('activeCheckbox', true);
+            console.log('active');
+            newList.checkedCheckbox = 'checked';
+            return
+        }
+        div.classList.toggle('activeCheckbox', false);
+        newList.checkedCheckbox = 0;
+
+
+        console.log('sad');
     }
 }
 
@@ -21,45 +42,18 @@ function uuid4() {
     });
 }
 
-
-function addToDoItemWithRandomColor(){
-    const color = document.querySelector(`.c${Math.floor(Math.random() * Math.floor(6))}`);
-    console.log(color);
-    const id = uuid4();
-
-    const toDoItem = document.createElement('li')
-    toDoItem.className = 'toDoItem';
-    toDoItem.innerText = input.value;
-    toDoItem.id = `${id}`;
-    toDoItem.style.backgroundColor = `${color.value}`;
-    inner.append(toDoItem);
-
-    const toDoCheckbox = document.createElement('input');
-    toDoCheckbox.className = 'toDoCheckbox';
-    toDoCheckbox.type = 'checkbox';
-    toDoCheckbox.id = `${id}`;
-    toDoCheckbox.addEventListener('click', checkedBox);
-    toDoItem.prepend(toDoCheckbox);
-
-    const dltButton = document.createElement('button');
-    dltButton.type = 'button';
-    dltButton.innerText = 'del';
-    dltButton.id = `${id}`;
-    dltButton.addEventListener('click', function (){
-        document.getElementById(`${id}`).remove();
-    });
-    toDoItem.append(dltButton)
-}
-
-
 function addToDoItem(){
-    const color = document.querySelector('.active');
-    const id = uuid4();
+    let color;
+
+    if (document.querySelector('.active')){
+        color = document.querySelector('.active');
+    }else{
+        color = document.querySelector(`.c${Math.floor(Math.random() * Math.floor(6))}`);
+    }
 
     const toDoItem = document.createElement('li')
     toDoItem.className = 'toDoItem';
-    toDoItem.value = input.value;
-    toDoItem.id = `${id}`;
+    toDoItem.id = `${uuid4()}`;
     toDoItem.style.backgroundColor = `${color.value}`;
     inner.append(toDoItem);
 
@@ -70,70 +64,58 @@ function addToDoItem(){
     toDoItem.prepend(toDoCheckbox);
     console.log(color.value);
 
-    const dltButton = document.createElement('button');
-    dltButton.type = 'button';
-    dltButton.className = 'dltButton';
-    dltButton.innerText = 'del';
-    dltButton.addEventListener('click', function (){
-        document.getElementById(`${id}`).remove();
-    });
-    toDoItem.append(dltButton)
+    const toDoText = document.createElement('output');
+    toDoText.className = 'toDoText';
+    toDoText.value = input.value;
+    toDoItem.append(toDoText);
 
-    function parseElem(){
-        let a = {};
-        a.tagName = toDoItem.tagName;
-        a.className = toDoItem.getAttribute('class');
-        a.innerText = toDoItem.getAttribute('innerText');
-        a.id = toDoItem.getAttribute('id');
-        a.style = toDoItem.getAttribute('style')
-        localStorage.setItem(`1`, JSON.stringify(a))
-
+    newList = {
+        idItem: toDoItem.id,
+        styleItem: toDoItem.style.backgroundColor,
+        valueText: toDoText.value,
+        checkedCheckbox: 0,
     }
-    parseElem();
+
+    arrItems.push(newList)
+    localStorage.setItem('1',JSON.stringify(arrItems));
+    console.log('newList', localStorage.getItem('1'))
+
 }
 
 function loadItem(){
-    let a;
-    a = JSON.parse(localStorage.getItem('1'));
-    const toDoItem = document.createElement(a.tagName)
-    toDoItem.className = a.className;
-    toDoItem.value = a.innerText;
-    toDoItem.id = a.id;
-    toDoItem.style = a.style;
-    inner.append(toDoItem);
-    console.log(toDoItem);
-    console.log('shift');
-}
+    if (localStorage.getItem('2') === 'true') {
+        let arrItemsNew = JSON.parse(localStorage.getItem('1'))
+        arrItemsNew.forEach(function(objItemNew){
+            const toDoItem = document.createElement('li')
+            toDoItem.className = 'toDoItem';
+            toDoItem.id = objItemNew.idItem;
+            toDoItem.style.backgroundColor = objItemNew.styleItem;
+            inner.append(toDoItem);
 
-function checkedBox(){
-    console.log(this.parentNode)
-    let div = document.getElementById(`${this.parentNode.id}`);
-    let checkBox = document.querySelectorAll('.toDoCheckbox');
-    for (let a of checkBox){
-        if(a.checked){
-            div.classList.toggle('activeCheckbox', true);
-            console.log('active');
-            return
-        }
-        div.classList.toggle('activeCheckbox', false);
-        console.log('sad');
-    }
-}
+            const toDoCheckbox = document.createElement('input');
+            toDoCheckbox.className = 'toDoCheckbox';
+            toDoCheckbox.type = 'checkbox';
+            toDoCheckbox.checked = objItemNew.checkedCheckbox;
+            toDoCheckbox.addEventListener('change', checkedBox)
+            toDoItem.prepend(toDoCheckbox);
 
-document.querySelector('.addToDo').addEventListener('click', function(){
-    const color = document.querySelector('.active');
-    if(color === null){
-        addToDoItemWithRandomColor();
+            const toDoText = document.createElement('output');
+            toDoText.className = 'toDoText';
+            toDoText.value = objItemNew.valueText;
+            toDoItem.append(toDoText);})
     }else {
+        alert('localStorage was cleared')
+    }}
+
+
+document.querySelector('.addToDo').addEventListener('click', function() {
+    if (document.querySelector('.active') !== null){
+        localStorage.setItem('2', 'true');
         addToDoItem();
         document.querySelector('.active').checked = false;
-        document.querySelector('.active').classList.toggle('active', false);
+        document.querySelector('.active').classList.toggle('active', false)
+    }else{
+        addToDoItem();
+        localStorage.setItem('2', 'true');
     }
-    // addToStorage()
-});
-
-// document.querySelector('.addToDo').addEventListener('click', addToStorage);
-//
-function clearLocal(){
-    localStorage.clear();
-}
+})
